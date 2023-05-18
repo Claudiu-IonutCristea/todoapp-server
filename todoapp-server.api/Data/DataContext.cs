@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using todoapp_server.api.Models;
+using todoapp_server.API.Models;
 
-namespace todoapp_server.api.Data;
+namespace todoapp_server.API.Data;
 
 public class DataContext : DbContext
 {

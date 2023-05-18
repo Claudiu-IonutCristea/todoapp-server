@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using todoapp_server.api.Data;
+using todoapp_server.API.Data;
 
 #nullable disable
 
-namespace todoapp_server.api.Data.Migrations
+namespace todoapp_server.API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20230517223337_InitialMigration")]

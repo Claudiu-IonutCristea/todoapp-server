@@ -2,7 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace todoapp_server.api.Extensions;
+namespace todoapp_server.API.Extensions;
 
 public static class IdentityServiceExtensions
 {

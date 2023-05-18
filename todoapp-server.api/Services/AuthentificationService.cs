@@ -4,7 +4,7 @@ using System.Text;
 using todoapp_server.Library.DTOs;
 using todoapp_server.Library.Models;
 
-namespace todoapp_server.api.Services;
+namespace todoapp_server.API.Services;
 
 public interface IAuthentificationService
 {

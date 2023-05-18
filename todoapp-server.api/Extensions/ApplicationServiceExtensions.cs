@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace todoapp_server.api.Extensions;
+namespace todoapp_server.API.Extensions;
 
 public static class ApplicationServiceExtensions
 {

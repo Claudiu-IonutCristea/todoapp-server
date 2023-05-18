@@ -1,10 +1,10 @@
-global using todoapp_server.api.Data;
+global using todoapp_server.API.Data;
 global using todoapp_server.Library.ServiceErrors;
 global using ErrorOr;
 
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using todoapp_server.api.Extensions;
+using todoapp_server.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
