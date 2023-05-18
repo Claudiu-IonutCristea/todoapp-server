@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "todoapp-server.API", "todoapp-server.api\todoapp-server.API.csproj", "{ABDD5579-AD14-44A2-8F0E-53AACECBD172}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "todoapp-server.api", "todoapp-server.api\todoapp-server.api.csproj", "{ABDD5579-AD14-44A2-8F0E-53AACECBD172}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "todoapp-server.Library", "todoapp-server.Library\todoapp-server.Library.csproj", "{A3376ABD-1977-48E6-BDA2-70961A5F6244}"
 EndProject
