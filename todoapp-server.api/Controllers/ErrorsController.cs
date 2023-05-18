@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace todoapp_server.API.Controllers;
+namespace ToDoAppServer.API.Controllers;
 
 
 public class ErrorsController : ControllerBase

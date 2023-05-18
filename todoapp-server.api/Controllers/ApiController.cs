@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace todoapp_server.API.Controllers;
+namespace ToDoAppServer.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

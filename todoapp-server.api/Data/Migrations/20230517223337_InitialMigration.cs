@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace todoapp_server.API.Data.Migrations
+namespace ToDoAppServer.API.Data.Migrations
 {
     /// <inheritdoc />
     public partial class InitialMigration : Migration

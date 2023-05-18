@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
-using todoapp_server.Library.DTOs;
-using todoapp_server.Library.Models;
+using ToDoAppServer.Library.DTOs;
+using ToDoAppServer.Library.Models;
 
-namespace todoapp_server.API.Services;
+namespace ToDoAppServer.API.Services;
 
 public interface IAuthentificationService
 {

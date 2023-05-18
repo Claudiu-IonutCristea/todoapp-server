@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace todoapp_server.Library.DTOs;
+namespace ToDoAppServer.Library.DTOs;
 public class RegisterDto
 {
 	public string Email { get; set; } = string.Empty;

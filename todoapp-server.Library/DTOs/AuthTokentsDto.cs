@@ -1,4 +1,4 @@
-﻿namespace todoapp_server.Library.DTOs;
+﻿namespace ToDoAppServer.Library.DTOs;
 
 public class AuthTokentsDto
 {

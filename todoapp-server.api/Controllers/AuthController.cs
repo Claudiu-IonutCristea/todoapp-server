@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using todoapp_server.Library.DTOs;
+using ToDoAppServer.Library.DTOs;
 
-namespace todoapp_server.API.Controllers;
+namespace ToDoAppServer.API.Controllers;
 
 public class AuthController : ApiController
 {

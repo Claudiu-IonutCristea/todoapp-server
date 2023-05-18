@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ErrorOr;
 
-namespace todoapp_server.Library.ServiceErrors;
+namespace ToDoAppServer.Library.ServiceErrors;
 
 public static partial class Errors
 {
