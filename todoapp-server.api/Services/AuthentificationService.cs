@@ -8,8 +8,30 @@ namespace ToDoAppServer.API.Services;
 
 public interface IAuthentificationService
 {
-	public Task<ErrorOr<Success>> VerifyLogin(LoginDto login);
-	public Task<ErrorOr<User>> RegisterUser(RegisterDto register);
+	/// <summary>
+	/// Verifies login credentials from <paramref name="login"/>
+	/// </summary>
+	/// <param name="login">Login data</param>
+	/// <returns>
+	/// <see cref="ErrorOr"/>&lt;<see cref="Success"/>&gt; with the possible values: <br/>
+	///	<see cref="Errors.Login.EmailNotFound"/> <br/>
+	///	<see cref="Errors.Login.PasswordIncorect"/> <br/>
+	///	<see cref="Result.Success"/>
+	/// </returns>
+	public Task<ErrorOr<Success>> VerifyLoginAsync(LoginDto login);
+
+	/// <summary>
+	/// Checks if a user with the specified email exists. If it doesn't,
+	/// creates a new user based on the <see cref="RegisterDto"/> <paramref name="register"/>
+	/// and adds the user to the <see cref="DataContext"/>
+	/// </summary>
+	/// <param name="register">Register data</param>
+	/// <returns>
+	/// <see cref="ErrorOr"/>&lt;<see cref="User"/>&gt; with the possible values: <br/>
+	/// <see cref="Errors.Register.EmailAlreadyInUse"/> <br/>
+	/// <see langword="new"/> <see cref="User"/> that has just been added to the database.
+	/// </returns>
+	public Task<ErrorOr<User>> RegisterUserAsync(RegisterDto register);
 }
 
 public class AuthentificationService : IAuthentificationService
@@ -21,7 +43,7 @@ public class AuthentificationService : IAuthentificationService
 		_dbContext = dbContext;
 	}
 
-	public async Task<ErrorOr<Success>> VerifyLogin(LoginDto login)
+	public async Task<ErrorOr<Success>> VerifyLoginAsync(LoginDto login)
 	{
 		var dbUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == login.Email);
 
@@ -39,7 +61,7 @@ public class AuthentificationService : IAuthentificationService
 		return Result.Success;
 	}
 
-	public async Task<ErrorOr<User>> RegisterUser(RegisterDto register)
+	public async Task<ErrorOr<User>> RegisterUserAsync(RegisterDto register)
 	{
 		var dbUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == register.Email);
 
@@ -49,13 +71,17 @@ public class AuthentificationService : IAuthentificationService
 		using var hmac = new HMACSHA512();
 		var newUserHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(register.Password));
 
-		return new User
+		var user = new User
 		{
 			Email = register.Email,
 			Name = register.Name,
 			PasswordSalt = hmac.Key,
 			PasswordHash = newUserHash,
 		};
+
+		await _dbContext.Users.AddAsync(user);
+
+		return user;
 	}
 }
 

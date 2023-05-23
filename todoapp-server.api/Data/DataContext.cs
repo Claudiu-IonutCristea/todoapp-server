@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ToDoAppServer.API.Models;
+using ToDoAppServer.Library.Models;
 
 namespace ToDoAppServer.API.Data;
 

@@ -10,7 +10,6 @@ public class AuthController : ApiController
 	public async Task<ActionResult<AuthTokentsDto>> Login(LoginDto login)
 	{
 
-
 		return Ok();
 	}
 }

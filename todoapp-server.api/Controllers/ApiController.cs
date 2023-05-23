@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ToDoAppServer.API.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
+[Route("api/[controller]")]
 public class ApiController : ControllerBase
 {
 	protected IActionResult Problem(List<Error> errors)

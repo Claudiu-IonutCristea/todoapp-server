@@ -13,7 +13,7 @@ public static class IdentityServiceExtensions
 			options.TokenValidationParameters = new TokenValidationParameters
 			{
 				ValidateIssuerSigningKey = true,
-				IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["AccessTokenKey"])),
+				IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.GetSection("TokenKeys:AccessToken").Value)),
 				ValidateIssuer = true,
 				ValidateAudience = true,
 				ValidateLifetime = true,
