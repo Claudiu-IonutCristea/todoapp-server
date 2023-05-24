@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,35 +12,24 @@ using ToDoAppServer.Library.Models;
 using ToDoAppServer.Library.ServiceErrors;
 
 namespace ToDoAppServer.Tests.Services.AuthentificationService;
-public class VerifyLoginTests
+public class VerifyLoginAsyncTests
 {
 	private readonly IAuthentificationService _authentificationService;
+	private readonly DataContext _dbContext;
 
-	public VerifyLoginTests(IAuthentificationService authentificationService, DataContext dbContext)
+	public VerifyLoginAsyncTests(IAuthentificationService authentificationService, DataContext dbContext)
 	{
 		_authentificationService = authentificationService;
-
-		dbContext.Database.EnsureCreated();
-
-		FakeDataGenerator.GetPasswordHashAndSalt("1234", out byte[] hash, out byte[] salt);
-		var user = new User
-		{
-			Id = 0,
-			Email = "fakeuser@email.com",
-			Name = "John",
-			PasswordHash = hash,
-			PasswordSalt = salt
-		};
-
-		dbContext.Users.Add(user);
-		dbContext.SaveChanges();
+		_dbContext = dbContext;
 	}
 
 	[Theory]
 	[MemberData(nameof(LoginFailed_Data))]
-	[Trait("Authentification Service", "Verify Login")]
+	[Trait("Authentification Service", "Verify Login Async")]
 	public async Task LoginFailed(LoginDto loginDto, Error expectedError)
 	{
+		SetupDatabase();
+
 		var result = await _authentificationService.VerifyLoginAsync(loginDto);
 
 		Assert.True(result.IsError);
@@ -57,9 +47,11 @@ public class VerifyLoginTests
 
 	[Theory]
 	[MemberData(nameof(LoginSuccess_Data))]
-	[Trait("Authentification Service", "Verify Login")]
+	[Trait("Authentification Service", "Verify Login Async")]
 	public async Task LoginSuccess(LoginDto loginDto)
 	{
+		SetupDatabase();
+
 		var result = await _authentificationService.VerifyLoginAsync(loginDto);
 
 		Assert.False(result.IsError);
@@ -72,4 +64,22 @@ public class VerifyLoginTests
 		{
 			new object[] { new LoginDto { Email = "fakeuser@email.com", Password = "1234" } },
 		};
+
+	private void SetupDatabase()
+	{
+		_dbContext.Database.EnsureCreated();
+
+		FakeDataGenerator.GetPasswordHashAndSalt("1234", out byte[] hash, out byte[] salt);
+		var user = new User
+		{
+			Id = 1,
+			Email = "fakeuser@email.com",
+			Name = "John",
+			PasswordHash = hash,
+			PasswordSalt = salt
+		};
+
+		_dbContext.Users.Add(user);
+		_dbContext.SaveChanges();
+	}
 }

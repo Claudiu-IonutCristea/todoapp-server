@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using ToDoAppServer.API.Data;
@@ -23,5 +24,20 @@ public class Startup
 
 		services.AddTransient<IAuthentificationService, AuthentificationService>();
 		services.AddTransient<ITokenService, TokenService>();
+	}
+
+	[Fact]
+	public void Test()
+	{
+
+		//for(int i = 0; i < 1000000; i++)
+		//{
+			var arr = RandomNumberGenerator.GetBytes(66);
+			var asd = Convert.ToBase64String(arr);
+			var assdfsfa = Encoding.Unicode.GetBytes(asd);
+		//}
+
+
+
 	}
 }
