@@ -1,46 +1,56 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using ToDoAppServer.Library.Models;
-using System.Text;
-using System.IdentityModel.Tokens.Jwt;
+﻿using ToDoAppServer.Library.DTOs;
 
 namespace ToDoAppServer.API.Services;
 
 public interface ITokenService
 {
-	string CreateAccessToken(User user);
+	/// <summary>
+	///		Creates an access token (JWT) based on the user information <br/>
+	/// </summary>
+	/// 
+	/// <param name="user">
+	///		Required information: <br/>
+	///		<see cref="UserDto.Id"/> (Required by model) <br/>
+	///		<see cref="UserDto.Email"/> (Required by model)
+	/// </param>
+	/// 
+	/// <param name="lifeSpan">
+	///		Computes the expiration date of the token (Recomended: short lifespan)
+	/// </param>
+	/// 
+	/// <returns>
+	///		<see cref="ErrorOr"/>&lt;<see cref="string"/>&gt; with the possible values: <br/>
+	///		<see cref="Errors.AccessToken.TokenKeyInvalid"/> (Unexpected error.
+	///			Appears if the <see cref="IConfiguration"/> section for the access token secret key is not found) <br/>
+	///		<see cref="string"/> containing the access token (JWT)
+	/// </returns>
+	ErrorOr<string> CreateAccessToken(UserDto user, TimeSpan lifeSpan);
+
+	/// <summary>
+	///		Creates a <see langword="new"/> <see cref="RefreshToken"/>
+	/// </summary>
+	/// 
+	/// <param name="lifeSpan">
+	///		Computes the expiration date of the token (Recomended: long lifespan)
+	/// </param>
+	/// 
+	/// <returns>
+	///		<see langword="new"/> <see cref="RefreshTokenDto"/> with infromation for <br/>
+	///		<see cref="RefreshTokenDto.Token"/> <br/>
+	///		<see cref="RefreshTokenDto.Created"/> <br/>
+	///		<see cref="RefreshTokenDto.Expires"/>
+	/// </returns>
+	RefreshTokenDto CreateRefreshToken(TimeSpan lifeSpan);
 }
 
-public class TokenService : ITokenService
+public partial class TokenService : ITokenService
 {
 	private readonly IConfiguration _config;
+	private readonly DataContext _dbContext;
 
-	public TokenService(IConfiguration config)
+	public TokenService(IConfiguration config, DataContext dbContext)
 	{
 		_config = config;
-	}
-
-	public string CreateAccessToken(User user)
-	{
-		var claims = new List<Claim>()
-		{
-			new(ClaimTypes.Email, user.Email)
-		};
-
-		var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-				_config.GetSection("TokenKeys:AccessToken").Value
-			));
-
-		var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-		var token = new JwtSecurityToken(
-				claims: claims,
-				expires: DateTime.Now.AddDays(1),
-				signingCredentials: creds
-			);
-
-		var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-		return jwt;
+		_dbContext = dbContext;
 	}
 }

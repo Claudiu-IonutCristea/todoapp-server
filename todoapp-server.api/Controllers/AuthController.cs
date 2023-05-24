@@ -6,10 +6,5 @@ namespace ToDoAppServer.API.Controllers;
 
 public class AuthController : ApiController
 {
-	[HttpPost("login")]
-	public async Task<ActionResult<AuthTokentsDto>> Login(LoginDto login)
-	{
-
-		return Ok();
-	}
+	
 }
