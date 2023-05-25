@@ -9,6 +9,7 @@ using ToDoAppServer.API.Services;
 using ToDoAppServer.Library.DTOs;
 using ToDoAppServer.Library.Models;
 using ToDoAppServer.Library.ServiceErrors;
+using static ToDoAppServer.Library.DTOs.AuthentificationDTOs;
 
 namespace ToDoAppServer.Tests.Services.AuthentificationService;
 public class RegisterUserAsyncTests
@@ -25,7 +26,7 @@ public class RegisterUserAsyncTests
 	[Theory]
 	[MemberData(nameof(RegisterFailed_Data))]
 	[Trait("Authentification Service", "Register User Async")]
-	public async Task RegisterFailed(RegisterDto registerDto, Error expectedError )
+	public async Task RegisterFailed(RegisterDTO registerDto, Error expectedError )
 	{
 		#region Database Setup
 		_dbContext.Database.EnsureCreated();
@@ -58,14 +59,14 @@ public class RegisterUserAsyncTests
 	public static IEnumerable<object[]> RegisterFailed_Data
 		=> new List<object[]>
 		{
-			new object[] { new RegisterDto { Email = "inuse@email.com", Name = "John", Password = "1234" }, Errors.Register.EmailAlreadyInUse },
+			new object[] { new RegisterDTO { Email = "inuse@email.com", Name = "John", Password = "1234" }, Errors.Register.EmailAlreadyInUse },
 		};
 
 
 	[Theory]
 	[MemberData(nameof(RegisterSuccess_Data))]
 	[Trait("Authentification Service", "Register User Async")]
-	public async Task RegisterSuccess(RegisterDto registerDto)
+	public async Task RegisterSuccess(RegisterDTO registerDto)
 	{
 		var expectedUser = new User
 		{
@@ -93,6 +94,6 @@ public class RegisterUserAsyncTests
 	public static IEnumerable<object[]> RegisterSuccess_Data
 		=> new List<object[]>
 		{
-			new object[] { new RegisterDto { Email = "john@email.com", Name = "John", Password = "1234" } },
+			new object[] { new RegisterDTO { Email = "john@email.com", Name = "John", Password = "1234" } },
 		};
 }
