@@ -4,7 +4,7 @@ namespace ToDoAppServer.Library.DTOs;
 
 public partial class AuthentificationDTOs
 {
-	public class RegisterDto
+	public class RegisterDTO
 	{
 		[Required]
 		public string Email { get; set; } = string.Empty;
