@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
-using ToDoAppServer.Library.DTOs;
 using ToDoAppServer.Library.Models;
+using static ToDoAppServer.Library.DTOs.AuthentificationDTOs;
 
 namespace ToDoAppServer.API.Services;
 
@@ -20,11 +20,11 @@ public interface IAuthentificationService
 	///		<see cref="Errors.Login.PasswordIncorect"/> <br/>
 	///		<see cref="Result.Success"/>
 	/// </returns>
-	public Task<ErrorOr<Success>> VerifyLoginAsync(LoginDto login);
+	public Task<ErrorOr<Success>> VerifyLoginAsync(LoginDTO login);
 
 	/// <summary>
 	///		Checks if a user with the specified email exists. If it doesn't,
-	///		creates a new user based on the <see cref="RegisterDto"/> <paramref name="register"/>
+	///		creates a new user based on the <see cref="RegisterDTO"/> <paramref name="register"/>
 	///		and adds the user to the <see cref="DataContext"/>
 	/// </summary>
 	/// 
@@ -35,7 +35,7 @@ public interface IAuthentificationService
 	///		<see cref="Errors.Register.EmailAlreadyInUse"/> <br/>
 	///		<see langword="new"/> <see cref="User"/> that has just been added to the database.
 	/// </returns>
-	public Task<ErrorOr<User>> RegisterUserAsync(RegisterDto register);
+	public Task<ErrorOr<User>> RegisterUserAsync(RegisterDTO register);
 }
 
 public class AuthentificationService : IAuthentificationService
@@ -47,7 +47,7 @@ public class AuthentificationService : IAuthentificationService
 		_dbContext = dbContext;
 	}
 
-	public async Task<ErrorOr<Success>> VerifyLoginAsync(LoginDto login)
+	public async Task<ErrorOr<Success>> VerifyLoginAsync(LoginDTO login)
 	{
 		var dbUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == login.Email);
 
@@ -65,7 +65,7 @@ public class AuthentificationService : IAuthentificationService
 		return Result.Success;
 	}
 
-	public async Task<ErrorOr<User>> RegisterUserAsync(RegisterDto register)
+	public async Task<ErrorOr<User>> RegisterUserAsync(RegisterDTO register)
 	{
 		var dbUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == register.Email);
 
