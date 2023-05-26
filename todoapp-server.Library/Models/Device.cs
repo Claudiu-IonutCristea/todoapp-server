@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Net;
 
 namespace ToDoAppServer.Library.Models;
 
@@ -9,11 +10,25 @@ public class Device
 	[Key]
 	public long Id { get; set; }
 
+	[MaxLength(16)] //16 bytes for IPv6 (future proofing here oK?), 4 bytes for IPv4
+	public byte[]? IPAddress { get; set; }
+
+	[Required]
+	[MaxLength(100)]
+	public string UserAgentFamily { get; set; }
+
+	[MaxLength(50)]
+	public string? OSFamily { get; set; }
+
+	[MaxLength(50)]
+	public string? DeviceFamily { get; set; }
+
+	[MaxLength(50)]
+	public string? DeviceModel { get; set; }
 
 
 	[Required]
 	public int UserId { get; set; }
 
-	[Required]
-	public long RefreshTokenId { get; set; }
+	public RefreshToken RefreshToken { get; set; }
 }
