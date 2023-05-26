@@ -7,7 +7,7 @@ using ToDoAppServer.Library.DTOs;
 
 namespace ToDoAppServer.API.Services;
 
-public partial interface ITokenService
+public interface IAccessTokenService
 {
 	/// <summary>
 	///		Creates an access token (JWT) based on the user information <br/>
@@ -45,8 +45,15 @@ public partial interface ITokenService
 	ErrorOr<ClaimsPrincipal> IsValidSignature(string token);
 }
 
-public partial class TokenService : ITokenService //Access Token (JWT)
+public class AccessTokenService : IAccessTokenService
 {
+	private readonly IConfiguration _config;
+
+	public AccessTokenService(IConfiguration config)
+	{
+		_config = config;
+	}
+
 	public static bool GetAccessTokenSecurityKey([NotNullWhen(true)] out SymmetricSecurityKey? securityKey, IConfiguration configuration)
 	{
 		var key = configuration.GetSection("TokenKeys:AccessToken").Value; //WHY IS THIS "MAYBE NULL" ???
@@ -67,11 +74,11 @@ public partial class TokenService : ITokenService //Access Token (JWT)
 		var expiration = DateTime.Now + lifeSpan;
 
 		var claims = new List<Claim>()
-		{
-			new(ClaimTypes.Expiration, expiration.ToString()),
-			new(ClaimTypes.Email, user.Email),
-			new("UserId", user.Id.ToString()),
-		};
+	{
+		new(ClaimTypes.Expiration, expiration.ToString()),
+		new(ClaimTypes.Email, user.Email),
+		new("UserId", user.Id.ToString()),
+	};
 
 		if(!GetAccessTokenSecurityKey(out SymmetricSecurityKey? securityKey, _config))
 			return Errors.AccessToken.TokenKeyInvalid;
@@ -113,5 +120,4 @@ public partial class TokenService : ITokenService //Access Token (JWT)
 			return Errors.AccessToken.TokenSignatureInvalid;
 		}
 	}
-
 }
