@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using ToDoAppServer.API.Services;
 using ToDoAppServer.Library.DTOs;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace ToDoAppServer.API.Controllers;
 
 public class AuthController : ApiController
 {
-	private readonly ITokenService _tokenService;
+	private readonly IAccessTokenService _tokenService;
 
-	public AuthController(ITokenService tokenService)
+	public AuthController(IAccessTokenService tokenService)
 	{
 		_tokenService = tokenService;
 	}
@@ -43,12 +44,17 @@ public class AuthController : ApiController
 	[HttpGet("expired")]
 	public IActionResult ValidateToken()
 	{
-		var tokenErr = _tokenService.IsValidSignature(Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty));
+		//var tokenErr = _tokenService.IsValidSignature(Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty));
 
-		return tokenErr.Match(
-			token => Ok(JsonSerializer.Serialize(token.Claims.Select(claim => new {claimType = claim.Type, claimValue = claim.Value}))),
-			errors => Problem(errors));
+		//return tokenErr.Match(
+		//	token => Ok(JsonSerializer.Serialize(token.Claims.Select(claim => new {claimType = claim.Type, claimValue = claim.Value}))),
+		//	errors => Problem(errors));
 
+		var feature = Request.HttpContext.Features.Get<IHttpConnectionFeature>();
+		var localIp = feature?.LocalIpAddress?.ToString();
+		var remoteIp = feature?.RemoteIpAddress?.ToString();
+
+		return Ok(JsonSerializer.Serialize(new { localIP = localIp, remoteIP = remoteIp })); ;
 
 	}
 }
