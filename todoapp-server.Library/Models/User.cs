@@ -25,6 +25,5 @@ public class User
 	[MaxLength(128)]
 	public byte[] PasswordSalt { get; set; }
 
-	public List<Device> Devices { get; } = new();
-	public List<RefreshToken> RefreshTokens { get; } = new();
+	public List<Device> Devices { get; set; } = new();
 }
