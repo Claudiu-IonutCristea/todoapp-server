@@ -7,7 +7,10 @@ public static class ApplicationServiceExtensions
 {
 	public static IServiceCollection AddApplicationServices(this IServiceCollection service, IConfiguration config)
 	{
-		service.AddScoped<ITokenService, TokenService>();
+		service.AddScoped<IRefreshTokenService, RefreshTokenService>();
+		service.AddScoped<IAccessTokenService, AccessTokenService>();
+		service.AddScoped<IDeviceService, DeviceService>();
+
 		service.AddScoped<IAuthentificationService, AuthentificationService>();
 
 		service.AddDbContext<DataContext>(options =>
