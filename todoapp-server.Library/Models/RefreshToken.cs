@@ -20,8 +20,18 @@ public class RefreshToken
 
 
 	[Required]
-	public int UserId { get; set; }
-
-	[Required]
 	public long DeviceId { get; set; }
+
+
+	public override int GetHashCode()
+		=> this.Token.GetHashCode();
+
+	public override bool Equals(object? obj)
+		=> (obj is RefreshToken token) &&
+			Equals(token);
+
+	public bool Equals(RefreshToken token)
+		=> token.Token.Equals(this.Token) &&
+			token.Created.Equals(this.Created) &&
+			token.Expires.Equals(this.Expires);
 }
