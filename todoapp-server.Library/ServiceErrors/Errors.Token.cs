@@ -21,6 +21,20 @@ public static partial class Errors
 
 	public static class RefreshToken
 	{
+		public static Error TokenInvalid => Error.Failure(
+			code: "rfrshtoken.invalid",
+			description: "Refresh token is invalid!");
 
+		public static Error TokenExpired => Error.Validation(
+			code: "rfrshtoken.expired",
+			description: "Token is valid, but expired!");
+
+		public static Error TokenNotValidForUser => Error.Validation(
+			code: "rfrshtoken.user.notvalid",
+			description: "Token is not valid for this user!");
+
+		public static Error TokenRevoked => Error.Validation(
+			code: "rfrshtoken.revoked",
+			description: "Tokenn has been revoked!");
 	}
 }
