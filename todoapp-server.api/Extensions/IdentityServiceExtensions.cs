@@ -10,7 +10,7 @@ public static class IdentityServiceExtensions
 {
 	public static IServiceCollection AddIdentityServices(this IServiceCollection service, IConfiguration config)
 	{
-		if(!TokenService.GetAccessTokenSecurityKey(out SymmetricSecurityKey? securityKey, config))
+		if(!AccessTokenService.GetAccessTokenSecurityKey(out SymmetricSecurityKey? securityKey, config))
 			throw new Exception("Access token key is invalid!");
 
 		service.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
